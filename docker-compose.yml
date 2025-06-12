@@ -1,0 +1,61 @@
+version: '3.3'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_betaovila
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: betaovila
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d betaovila"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./back-end-erp
+      dockerfile: Dockerfile
+      args:
+        BUILD_PROFILE: "dev"
+    container_name: betaovila_app
+    ports:
+      - "8081:8080"
+    environment:
+      BUILD_PROFILE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/betaovila
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_LIQUIBASE_ENABLED: "true"
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend-saas
+      args:
+        VITE_API_URL: "http://backend:8080/api"
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  pgdata:
+
+networks:
+  app-network:
+
