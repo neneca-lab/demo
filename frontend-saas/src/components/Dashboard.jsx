@@ -7,7 +7,7 @@ import { FaPowerOff } from "react-icons/fa6";
 import { FaChevronDown } from "react-icons/fa";
 import Footer from "./Footer";
 import { useAuth } from "../hooks/useAuth";
-import { listarUsuarios, salvarProdutoParaCliente } from "../services/clienteService"; 
+import { listarUsuarios } from "../services/clienteService"; 
 import NovoClienteModal from "../components/NovoClientModal";
 import EditarClienteModal from "../components/EditarClientModal";
 import AdicionarProdutoModal from "../components/AdicionarProdutoModal";
@@ -67,7 +67,7 @@ function Dashboard() {
         setModalEditarAberto(true);
     };
 
-    // cad produto por usuario
+    // cadastra produto setando usuario
     const abrirModalProduto = (clienteId) => {
     setClienteSelecionado(clienteId);
 
