@@ -5,8 +5,6 @@ import { listarProdutos, cadastrarProduto } from "../services/produtoService";
 export default function useProdutos(user_id) {
     const [produtos, setProdutos] = useState([]);
     const [ novoProduto, setNovoProduto ] = useState("");
-    const [clientes, setClientes] = useState([]);
-
 
 
     useEffect(() => {
@@ -26,10 +24,9 @@ export default function useProdutos(user_id) {
             });
     }, [user_id]);
 
-    const salvarProdutoUsuario = ({ nome, user_id, clienteId }) => {
-    
+    const salvarProdutoUsuario = ({ nome,  user_id, clienteId}) => {
         console.log("user aq: ", user_id);
-        console.log("parametro nome: ", nome);
+        console.log("parametro produto: ", nome);
 
         if (!user_id) {
             alert("Usuário ou cliente não selecionado.");
@@ -38,6 +35,8 @@ export default function useProdutos(user_id) {
 
         cadastrarProduto(nome, user_id, clienteId)
             .then(async response => {
+                console.log("response do hook: ", response)
+                setNovoProduto(response.data);
                 console.log("Produto salvo com sucesso:", response.data);
                 alert("Produto cadastrado com sucesso!");
                 setProdutos((prev) => [...prev, response.data]);
@@ -50,5 +49,5 @@ export default function useProdutos(user_id) {
 
 
 
-    return { produtos, salvarProdutoUsuario };
+    return { produtos, salvarProdutoUsuario, novoProduto, setProdutos, };
 }

@@ -145,7 +145,7 @@ export default function useClientes() {
         salvarEdicao,
         excluirCliente,
         recarregarClientes,
-        salvarProduto
+        salvarProduto,
     };
 
 }
