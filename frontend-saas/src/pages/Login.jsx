@@ -37,15 +37,6 @@ export default function Login() {
         }
     };
 
-    const handleCadastro = async () => {
-        try {
-            await api.post("/auth/register", { email, password: senha });
-            alert("Usuário cadastrado com sucesso!");
-        } catch (err) {
-            console.error(err);
-            alert("Erro ao cadastrar usuário");
-        }
-    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">

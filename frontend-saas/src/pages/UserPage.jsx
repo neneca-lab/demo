@@ -2,7 +2,6 @@ import React from "react";
 import { useState } from "react";
 import useProdutos from "../hooks/useProdutos";
 import { useAuth } from "../hooks/useAuth";
-import {cadastrarProduto} from "../services/produtoService";
 import { FaPowerOff } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
@@ -14,20 +13,33 @@ import useClientes from "../hooks/useClientes";
 
 
 export default function UserPage() {
-    const { clientes, setNovaRole, salvarProduto } = useClientes();
-    const { user } = useAuth();
-    const [userteste, setUser] = useState(null);
+    const { setNovaRole } = useClientes();
     const navigate = useNavigate();
-    const [clienteSelecionado, setClienteSelecionado] = useState(null);
+    const { user } = useAuth();
+    
+    const [clienteSelecionado, 
+            setClienteSelecionado
+     ] = useState(null);
+
     const [usuarios, setUsuarios] = useState([]);
+
     const [modalProdutoAberto, setModalProdutoAberto] = useState(false);
-    const { produtos } = useProdutos(user?.id);
+    const { 
+            produtos, 
+            salvarProdutoUsuario,
+            novoProduto,
+            setProdutos 
+        } = useProdutos(user?.id);
+    
 
 
 
-    const novoProdutoUsuario = () => {
-        setModalProdutoAberto(true);
+
+    const abrirModalProduto = () => {
+        setClienteSelecionado(user?.id);
+        setProdutos("");
         setNovaRole("USER");
+        setModalProdutoAberto(true);
     }
 
     
@@ -35,7 +47,6 @@ export default function UserPage() {
         localStorage.removeItem("token");
         navigate("/auth/login");
     };
-    // console.log("produtos: ", produtos);
 
     if (!user) {
         return (
@@ -60,7 +71,7 @@ export default function UserPage() {
                             <FaPowerOff size={20} />
                         </button>
                         <button
-                            onClick={novoProdutoUsuario}
+                            onClick={abrirModalProduto}
                             className="flex itemns-center justify-center bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
                         >
                             <IoIosAddCircle size={20} />
@@ -91,7 +102,7 @@ export default function UserPage() {
                 isOpen={modalProdutoAberto}
                 onClose={() => setModalProdutoAberto(false)}
                 usuarios={usuarios}
-                onSalvar={salvarProduto}
+                onSalvar={salvarProdutoUsuario}
                 clienteId={clienteSelecionado}
             />
         </div>
