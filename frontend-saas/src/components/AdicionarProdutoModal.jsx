@@ -19,16 +19,16 @@ export default function AdicionarProdutoModal({ isOpen, onClose, usuarios, onSal
     const salvarProduto = () => {
     if (!nomeProduto || !usuarioSelecionado) return;
 
-    if (userTrue && !usuarioSelecionado) {
-            alert("Selecione um usuário.");
-            return;
+        if (userTrue && !usuarioSelecionado) {
+                alert("Selecione um usuário.");
+                return;
         }
 
 
         onSalvar({
             nome: nomeProduto,
             user_id: userTrue ? usuarioSelecionado: undefined,
-            clienteId// novo: isso vai pro backend
+            clienteId
         });
 
         setNomeProduto("");
