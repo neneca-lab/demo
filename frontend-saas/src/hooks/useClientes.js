@@ -62,24 +62,24 @@ export default function useClientes() {
         if (!clienteEmEdicao) return;
 
         try {
-        await atualizarCliente(clienteEmEdicao.id, {
-            email: emailEdit,
-            password: senhaEdit,
-        });
+            await atualizarCliente(clienteEmEdicao.id, {
+                email: emailEdit,
+                password: senhaEdit,
+            });
 
-        setClientes((prev) =>
-            prev.map((c) =>
-            c.id === clienteEmEdicao.id ? { ...c, email: emailEdit } : c
-            )
-        );
+            setClientes((prev) =>
+                prev.map((c) =>
+                c.id === clienteEmEdicao.id ? { ...c, email: emailEdit } : c
+                )
+            );
 
-        setClienteEmEdicao(null);
-        setEmailEdit("");
-        setSenhaEdit("");
-        alert("Cliente atualizado com sucesso");
+            setClienteEmEdicao(null);
+            setEmailEdit("");
+            setSenhaEdit("");
+            alert("Cliente atualizado com sucesso");
         } catch (err) {
-        console.error("Erro ao atualizar cliente:", err);
-        alert("Erro ao atualizar cliente");
+            console.error("Erro ao atualizar cliente:", err);
+            alert("Erro ao atualizar cliente");
         }
     };
 
@@ -144,7 +144,6 @@ export default function useClientes() {
         iniciarEdicao,
         salvarEdicao,
         excluirCliente,
-        recarregarClientes,
         salvarProduto,
     };
 
