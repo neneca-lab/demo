@@ -138,7 +138,7 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("id", usuario.getId(), "email", usuario.getEmail()));
     }
 
-    // admin deleta cliente
+    // admin deleta cliente e produto
     @DeleteMapping("/clientes/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Optional<Usuario> optionalUsuario = userRepository.findById(id);
