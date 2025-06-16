@@ -42,16 +42,14 @@ function Dashboard() {
     const [modalProdutoAberto, setModalProdutoAberto] = useState(false);
     const [clienteSelecionado, setClienteSelecionado] = useState(null);
     const [usuarios, setUsuarios] = useState([]);
-    
+    const [modalNovoAberto, setModalNovoAberto] = useState(false);
+    const [modalEditarAberto, setModalEditarAberto] = useState(false);
     console.log("verificar a role: ", user)
 
     const toggleDropdown = (id) => {
         setClienteExpandido(clienteExpandido === id ? null : id);
     };
 
-
-    const [modalNovoAberto, setModalNovoAberto] = useState(false);
-    const [modalEditarAberto, setModalEditarAberto] = useState(false);
 
     // abre modal para cadastrar novo usuario
     const abrirModalNovo = () => {
