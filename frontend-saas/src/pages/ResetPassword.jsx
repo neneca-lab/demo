@@ -42,8 +42,9 @@ export default function ResetPassword() {
                     Redefinir
                 </button>
             </div>
-            <Footer />
+            
             
         </div>
+        
     );
 }

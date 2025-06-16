@@ -20,8 +20,9 @@ export default function RecuperarSenha() {
             const res = await api.post("/auth/recuperar-senha", { email });
             if (res.data) {
                 setEnviado(true);
+                alert("Email enviado cu de burro")
                 setLoading(false);
-                navigate("/auth/login"); // Redireciona para a página de login após o envio
+                navigate("/auth/login");
             } else {
                 alert("Erro inesperado. Tente novamente mais tarde.");
                 setLoading(false);
