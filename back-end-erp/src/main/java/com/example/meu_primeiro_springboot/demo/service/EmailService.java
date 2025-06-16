@@ -21,7 +21,7 @@ public class EmailService {
         Long dataAtual = System.currentTimeMillis();
 
         if (dataAtual <= data){
-            String urlReset = "http://localhost:5174/reset?token=" + token;
+            String urlReset = "http://localhost:3000/reset?token=" + token;
             SimpleMailMessage mensagem = new SimpleMailMessage();
             mensagem.setTo(email);
             mensagem.setSubject("Redefinição de senha");
