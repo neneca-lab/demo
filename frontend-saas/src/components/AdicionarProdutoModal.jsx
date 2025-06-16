@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-export default function AdicionarProdutoModal({ isOpen, onClose, usuarios, onSalvar, clienteId }) {
+export default function AdicionarProdutoModal({ isOpen, onClose, usuarios, onSalvar, clienteId}) {
     const [nomeProduto, setNomeProduto] = useState("");
-    const [usuarioSelecionado, setUsuarioSelecionado] = useState("");
+    const [clienteSelecionado, setUsuarioSelecionado] = useState("");
     const userTrue = usuarios.length > 0;
 
     useEffect(() => {
@@ -17,9 +17,9 @@ export default function AdicionarProdutoModal({ isOpen, onClose, usuarios, onSal
     if (!isOpen) return null;
 
     const salvarProduto = () => {
-    if (!nomeProduto || !usuarioSelecionado) return;
+    if (!nomeProduto || !clienteSelecionado) return;
 
-        if (userTrue && !usuarioSelecionado) {
+        if (userTrue && !clienteSelecionado) {
                 alert("Selecione um usuário.");
                 return;
         }
@@ -27,7 +27,7 @@ export default function AdicionarProdutoModal({ isOpen, onClose, usuarios, onSal
 
         onSalvar({
             nome: nomeProduto,
-            user_id: userTrue ? usuarioSelecionado: undefined,
+            user_id: userTrue ? clienteSelecionado: undefined,
             clienteId
         });
 
@@ -35,6 +35,8 @@ export default function AdicionarProdutoModal({ isOpen, onClose, usuarios, onSal
         setUsuarioSelecionado("");
         onClose();
     };
+
+    console.log("usuarios: ", usuarios);
 
     return isOpen ? (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
@@ -53,15 +55,15 @@ export default function AdicionarProdutoModal({ isOpen, onClose, usuarios, onSal
                     <>
                         <p>Usuarios:</p>
                         <select
-                            value={usuarioSelecionado}
+                            value={clienteSelecionado}
                             onChange={(e) => setUsuarioSelecionado(Number(e.target.value))}
                             className="border p-2 w-full mb-4 rounded"
                         >
-                            {usuarios.map((u) => (
-                                <option key={u.id} value={u.id}>
-                                    {u.email}
+                            
+                                <option  value={setUsuarioSelecionado.id} >
+                                    {clienteSelecionado.email}
                                 </option>
-                            ))}
+                            
                         </select>
                     </>
                 )}
