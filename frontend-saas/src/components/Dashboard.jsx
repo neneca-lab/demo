@@ -5,6 +5,7 @@ import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { IoPersonAddSharp } from "react-icons/io5";
 import { FaPowerOff } from "react-icons/fa6";
 import { FaChevronDown } from "react-icons/fa";
+import { IoIosAddCircle } from "react-icons/io";
 import Footer from "./Footer";
 import { useAuth } from "../hooks/useAuth";
 import { listarUsuarios } from "../services/clienteService"; 
@@ -101,13 +102,30 @@ function Dashboard() {
                             <FaPowerOff size={20} />
                         </button>
                         { user && user.role === "ADMIN" && (
-                            <button
+                            <><button
                                 onClick={abrirModalNovo}
                                 className="flex items-center justify-center bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
                                 title="Novo Cliente"
                             >
                                 <IoPersonAddSharp size={20} />
                             </button>
+                            
+                            <button
+                                onClick={() => {
+                                    if(clientes.length === 0){
+                                        alert("Nenhum cliente cadastrado ainda")
+                                        return;
+                                    }
+
+                                    const idPrimeiroCliente = clientes[0].id;
+                                    abrirModalProduto(idPrimeiroCliente);
+                                }}
+                                className="flex items-center justify-center bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 transition"
+                                title="Adicionar Produto ao Primeiro Cliente"
+                            >
+                                <IoIosAddCircle size={20}/>
+                            </button></>
+                            
                         )}
                     
                 
@@ -145,18 +163,9 @@ function Dashboard() {
                                 </div>
                             </div>
 
-                            {/* Dropdown de produtos */}
+                            {/* Dropdown de produtos */console.log("teste3333333",c)}
                             {clienteExpandido === c.id && (
                                 <div className="mt-2 ml-4 bg-gray-100 rounded p-2">
-                                    <div className="flex items-center justify-between mb-1">
-                                        <p className="text-sm text-gray-700 font-semibold">Produtos:</p>
-                                        <button
-                                            onClick={() => abrirModalProduto(c.id)}
-                                            className="text-sm bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition"
-                                        >
-                                            + Adicionar Produto
-                                        </button>
-                                    </div>
 
                                     {c.produtos && c.produtos.length > 0 ? (
                                         <ul className="list-disc ml-5 text-sm text-gray-800">

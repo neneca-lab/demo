@@ -1,48 +1,44 @@
 import { useState, useEffect } from "react";
 
-export default function AdicionarProdutoModal({ isOpen, onClose, usuarios, onSalvar, clienteId}) {
+export default function AdicionarProdutoModal({ isOpen, onClose, usuarios, onSalvar, clienteId }) {
     const [nomeProduto, setNomeProduto] = useState("");
-    const [clienteSelecionado, setUsuarioSelecionado] = useState("");
-    const userTrue = usuarios.length > 0;
+    const [usuarioSelecionado, setUsuarioSelecionado] = useState("");
 
     useEffect(() => {
         if (isOpen) {
             setNomeProduto("");
-            if (userTrue) {
-                    setUsuarioSelecionado(usuarios[0].id);
+            if (usuarios.length > 0) {
+                setUsuarioSelecionado(usuarios[0].id);
             }
         }
     }, [isOpen, usuarios]);
 
-    if (!isOpen) return null;
-
     const salvarProduto = () => {
-    if (!nomeProduto || !clienteSelecionado) return;
-
-        if (userTrue && !clienteSelecionado) {
-                alert("Selecione um usuário.");
-                return;
+        if (!nomeProduto || !usuarioSelecionado) {
+            alert("Preencha todos os campos");
+            return;
         }
 
-
-        onSalvar({
+        const novoProduto = {
             nome: nomeProduto,
-            user_id: userTrue ? clienteSelecionado: undefined,
-            clienteId
-        });
+            user_id: usuarioSelecionado,
+            clienteId: clienteId,
+        };
 
+        onSalvar(novoProduto);
+        onClose();
         setNomeProduto("");
         setUsuarioSelecionado("");
-        onClose();
     };
 
-    console.log("usuarios: ", usuarios);
+    if (!isOpen) return null;
 
-    return isOpen ? (
+    return (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded shadow-md w-96">
                 <h3 className="text-lg font-semibold mb-4">Adicionar Produto</h3>
-                <p>Nome do produto:</p>
+
+                <label className="block mb-1 text-sm">Nome do produto:</label>
                 <input
                     type="text"
                     placeholder="Nome do Produto"
@@ -51,23 +47,22 @@ export default function AdicionarProdutoModal({ isOpen, onClose, usuarios, onSal
                     className="border p-2 w-full mb-4 rounded"
                 />
 
-                {userTrue && (
+                {usuarios.length > 0 && (
                     <>
-                        <p>Usuarios:</p>
+                        <label className="block mb-1 text-sm">Usuário:</label>
                         <select
-                            value={clienteSelecionado}
+                            value={usuarioSelecionado}
                             onChange={(e) => setUsuarioSelecionado(Number(e.target.value))}
                             className="border p-2 w-full mb-4 rounded"
                         >
-                            
-                                <option  value={setUsuarioSelecionado.id} >
-                                    {clienteSelecionado.email}
+                            {usuarios.map((u) => (
+                                <option key={u.id} value={u.id}>
+                                    {u.email}
                                 </option>
-                            
+                            ))}
                         </select>
                     </>
                 )}
-                
 
                 <div className="flex justify-end space-x-2">
                     <button onClick={onClose} className="px-4 py-2 border rounded">Cancelar</button>
@@ -80,5 +75,5 @@ export default function AdicionarProdutoModal({ isOpen, onClose, usuarios, onSal
                 </div>
             </div>
         </div>
-    ): null ;
+    );
 }

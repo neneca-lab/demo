@@ -36,18 +36,25 @@ services:
       SPRING_DATASOURCE_PASSWORD: admin
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_LIQUIBASE_ENABLED: "true"
+    volumes:
+      - ./back-end-erp:/workspace
     depends_on:
       - postgres
     networks:
       - app-network
 
   frontend:
-    build:
-      context: ./frontend-saas
-      args:
-        VITE_API_URL: "http://backend:8080/api"
+    image: node:18
+    container_name: frontend_dev
+    working_dir: /app
+    volumes:
+      - ./frontend-saas:/app
+      - /app/node_modules
     ports:
-      - "3000:80"
+      - "3000:5173"
+    environment:
+      - VITE_API_URL=http://backend:8080/api
+    command: sh -c "npm install && npm run dev -- --host"
     depends_on:
       - backend
     networks:
